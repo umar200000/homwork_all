@@ -70,7 +70,9 @@ class SpentMoney extends StatelessWidget {
               icon: Icon(
                 Icons.arrow_right,
                 size: 30,
-                color: Colors.grey,
+                color: dateTime.year == 2024 && dateTime.month == 12
+                    ? Colors.grey
+                    : Colors.blue,
               ),
             ),
           ),

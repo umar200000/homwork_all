@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:homework_all/pages/expense_list.dart';
 import 'package:homework_all/pages/month_controller.dart';
+import 'package:homework_all/pages/progres_bar.dart';
 import 'package:homework_all/pages/spent_money.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
+
+import 'models/expense_model.dart';
 
 class MyWallet extends StatefulWidget {
   const MyWallet({super.key});
@@ -12,6 +16,7 @@ class MyWallet extends StatefulWidget {
 
 class _MyWalletState extends State<MyWallet> {
   DateTime dateTime = DateTime.now();
+  ExpensesList expenseList = ExpensesList();
 
   void pickMonth(BuildContext context) {
     showMonthPicker(
@@ -44,31 +49,37 @@ class _MyWalletState extends State<MyWallet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "My Wallet",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  setState(() {});
-                },
-                icon: Icon(Icons.add))
-          ],
-          centerTitle: true,
+      appBar: AppBar(
+        title: Text(
+          "My Wallet",
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        body: Column(
-          children: [
-            SizedBox(
-              height: 20,
+        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.add))],
+        centerTitle: true,
+      ),
+      body: Column(
+        children: [
+          SizedBox(
+            height: 20,
+          ),
+          MonthController(dateTime, pickMonth),
+          SizedBox(
+            height: 20,
+          ),
+          SpentMoney(lastMonth, nextMonth, dateTime),
+          SizedBox(
+            height: 30,
+          ),
+          Expanded(
+            child: Stack(
+              children: [
+                ProgressBar(),
+                ExpenseList(expenseList.expenseList),
+              ],
             ),
-            MonthController(dateTime, pickMonth),
-            SizedBox(
-              height: 20,
-            ),
-            SpentMoney(lastMonth, nextMonth, dateTime),
-          ],
-        ));
+          )
+        ],
+      ),
+    );
   }
 }
