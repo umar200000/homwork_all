@@ -15,7 +15,7 @@ class OneItem extends StatelessWidget {
       ),
       title: Text(
         expenseModel.title,
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
       ),
       subtitle: Text(DateFormat("d-MMMM,y").format(expenseModel.dateTime)),
       trailing: Text(

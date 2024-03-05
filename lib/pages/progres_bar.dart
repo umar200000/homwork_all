@@ -6,7 +6,7 @@ class ProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 18, horizontal: 20),
+      padding: EdgeInsets.symmetric(vertical: 18, horizontal: 25),
       decoration: BoxDecoration(
         color: Color.fromRGBO(237, 238, 251, 1),
         borderRadius: BorderRadius.vertical(top: Radius.circular(55)),
@@ -15,7 +15,7 @@ class ProgressBar extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text("Salary budget: "),
+              Text("Oylik byudjet: "),
               TextButton.icon(
                 onPressed: () {},
                 icon: Icon(

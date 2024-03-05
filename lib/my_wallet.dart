@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homework_all/pages/bottom_sheet.dart';
 import 'package:homework_all/pages/expense_list.dart';
 import 'package:homework_all/pages/month_controller.dart';
 import 'package:homework_all/pages/progres_bar.dart';
@@ -24,7 +25,6 @@ class _MyWalletState extends State<MyWallet> {
       initialDate: dateTime,
       firstDate: DateTime(2023),
       lastDate: DateTime(2024, 12),
-      currentMonthTextColor: Colors.red,
     ).then((value) {
       setState(() {
         if (value != null) dateTime = value;
@@ -46,6 +46,21 @@ class _MyWalletState extends State<MyWallet> {
     });
   }
 
+  void showBottomWindow(BuildContext context) {
+    showModalBottomSheet(
+        isDismissible: false,
+        context: context,
+        builder: (ctx) {
+          return BottomSheet1(addNewExpense);
+        });
+  }
+
+  void addNewExpense(String title, DateTime time, String sum) {
+    setState(() {
+      expenseList.setAddItem(title, time, sum);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +69,6 @@ class _MyWalletState extends State<MyWallet> {
           "My Wallet",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.add))],
         centerTitle: true,
       ),
       body: Column(
@@ -79,6 +93,12 @@ class _MyWalletState extends State<MyWallet> {
             ),
           )
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showBottomWindow(context);
+        },
+        child: Icon(Icons.add),
       ),
     );
   }

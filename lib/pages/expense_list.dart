@@ -13,7 +13,7 @@ class ExpenseList extends StatelessWidget {
       padding: const EdgeInsets.only(top: 90),
       child: Container(
         clipBehavior: Clip.hardEdge,
-        padding: EdgeInsets.only(left: 10, right: 10, top: 0),
+        padding: EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(55),
@@ -21,6 +21,7 @@ class ExpenseList extends StatelessWidget {
           color: Colors.white,
         ),
         child: ListView.builder(
+          padding: EdgeInsets.only(top: 30),
           itemBuilder: (context, index) {
             return OneItem(list[index]);
           },
