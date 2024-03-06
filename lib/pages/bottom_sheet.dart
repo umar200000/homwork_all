@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:vibration/vibration.dart';
+
+class NumberFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    final formatter = NumberFormat('#,###', 'ru-RU');
+    return TextEditingValue(text: formatter.format(int.parse(newValue.text)));
+  }
+}
 
 class BottomSheet1 extends StatefulWidget {
   final void Function(String title, DateTime time, String sum) addNewExpense;
@@ -44,20 +54,21 @@ class _BottomSheet1State extends State<BottomSheet1> {
     dateTime == null ? c = 1 : c = 0;
   }
 
-  String moneyFormat(String str) {
-    String s = "";
-    int b = 0;
-    for (int i = str.length - 1; i >= 0; i--) {
-      if (b == 3) {
-        s += " ";
-        b = 0;
-      }
-      s += str[i];
-      b++;
-      print(b);
-    }
-    return s.split("").reversed.join();
-  }
+  // String moneyFormat(String str) {
+  //   str = str.replaceAll(RegExp(r'[^0-9]'), '');
+  //   String s = "";
+  //   int b = 0;
+  //   for (int i = str.length - 1; i >= 0; i--) {
+  //     if (b == 3) {
+  //       s += " ";
+  //       b = 0;
+  //     }
+  //     s += str[i];
+  //     b++;
+  //     print(b);
+  //   }
+  //   return s.split("").reversed.join();
+  // }
 
   void snackBar() {
     setState(() {
@@ -102,13 +113,17 @@ class _BottomSheet1State extends State<BottomSheet1> {
             keyboardType: TextInputType.number,
             onChanged: (text) {
               setState(() {
-                text2.text = moneyFormat(text.replaceAll(" ", ""));
+                // text2.text = moneyFormat(text);
 
                 if (text2.text.isNotEmpty) {
                   b = 0;
                 }
               });
             },
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              NumberFormatter(),
+            ],
             decoration: InputDecoration(
               labelText: "Xarajat miqdori",
               labelStyle: TextStyle(color: b == 0 ? Colors.grey : Colors.red),
