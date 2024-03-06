@@ -103,6 +103,7 @@ class _BottomSheet1State extends State<BottomSheet1> {
             onChanged: (text) {
               setState(() {
                 text2.text = moneyFormat(text.replaceAll(" ", ""));
+
                 if (text2.text.isNotEmpty) {
                   b = 0;
                 }
@@ -172,6 +173,15 @@ class _BottomSheet1State extends State<BottomSheet1> {
                     if (!t) snackBar();
                     return;
                   }
+
+                  if (int.parse(text2.text.replaceAll(" ", "")) < 0) {
+                    setState(() {
+                      b = 1;
+                    });
+                    if (!t) snackBar();
+                    return;
+                  }
+
                   widget.addNewExpense(
                       text1.text, dateTime!, text2.text.replaceAll(" ", ","));
                   Navigator.pop(context);

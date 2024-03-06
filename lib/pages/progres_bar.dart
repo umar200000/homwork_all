@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
 
 class ProgressBar extends StatelessWidget {
-  const ProgressBar({super.key});
+  final int spentMoneyAmount;
+  final void Function(BuildContext context) changeBudget;
+  final String budget;
+  const ProgressBar(this.spentMoneyAmount, this.changeBudget, this.budget,
+      {super.key});
+
+  fixProgress() {
+    String s = (100 * spentMoneyAmount / int.parse(budget.replaceAll(",", "")))
+        .toString();
+    int index = s.indexOf(".");
+    if (int.parse(s.substring(index + 1)) > 0) {
+      return 100 * spentMoneyAmount / int.parse(budget.replaceAll(",", ""));
+    }
+    return (100 * spentMoneyAmount / int.parse(budget.replaceAll(",", "")))
+        .toInt();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +32,15 @@ class ProgressBar extends StatelessWidget {
             children: [
               Text("Oylik byudjet: "),
               TextButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  changeBudget(context);
+                },
                 icon: Icon(
                   Icons.edit,
                   size: 15,
                 ),
                 label: Text(
-                  "10.000.000 so'm",
+                  "$budget so'm",
                   style: TextStyle(decoration: TextDecoration.underline),
                 ),
               ),
@@ -31,7 +48,11 @@ class ProgressBar extends StatelessWidget {
                   child: Container(
                 height: 1,
               )),
-              Text("48.9%"),
+              Text(fixProgress() > 100
+                  ? "100%"
+                  : fixProgress().toString().contains(".")
+                      ? "${fixProgress().toStringAsFixed(1)}%"
+                      : "${fixProgress()}%"),
             ],
           ),
           Container(
@@ -44,7 +65,7 @@ class ProgressBar extends StatelessWidget {
             ),
             child: FractionallySizedBox(
               heightFactor: 2,
-              widthFactor: 0.48,
+              widthFactor: fixProgress() <= 100 ? fixProgress() / 100 : 1,
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -53,10 +74,12 @@ class ProgressBar extends StatelessWidget {
                           color: Colors.blue, spreadRadius: -2, blurRadius: 15)
                     ],
                     gradient: LinearGradient(colors: [
-                      Colors.blue,
-                      Colors.blue,
-                      Colors.blue.shade100,
-                      Colors.blue,
+                      fixProgress() <= 100 ? Colors.blue : Colors.red,
+                      fixProgress() <= 100 ? Colors.blue : Colors.red,
+                      fixProgress() <= 100
+                          ? Colors.blue.shade100
+                          : Colors.red.shade100,
+                      fixProgress() <= 100 ? Colors.blue : Colors.red,
                     ])),
               ),
             ),

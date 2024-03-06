@@ -4,7 +4,23 @@ class SpentMoney extends StatelessWidget {
   final void Function() lastMonth;
   final void Function() nextMonth;
   final DateTime dateTime;
-  const SpentMoney(this.lastMonth, this.nextMonth, this.dateTime, {super.key});
+  final String sum;
+  const SpentMoney(this.lastMonth, this.nextMonth, this.dateTime, this.sum,
+      {super.key});
+
+  String moneyFormat() {
+    String s = "";
+    int b = 0;
+    for (int i = sum.length - 1; i >= 0; i--) {
+      if (b == 3) {
+        s += ",";
+        b = 0;
+      }
+      s += sum[i];
+      b++;
+    }
+    return s.split("").reversed.join();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +58,7 @@ class SpentMoney extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                "4,895,000",
+                moneyFormat(),
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 50),
               ),
               Text(

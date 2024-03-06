@@ -18,6 +18,14 @@ class MyWallet extends StatefulWidget {
 class _MyWalletState extends State<MyWallet> {
   DateTime dateTime = DateTime.now();
   ExpensesList expenseList = ExpensesList();
+  TextEditingController textEditingController = TextEditingController();
+  String budget = "";
+  @override
+  void initState() {
+    textEditingController.text = "1 000 000";
+    budget = "1 000 000";
+    super.initState();
+  }
 
   void pickMonth(BuildContext context) {
     showMonthPicker(
@@ -61,6 +69,79 @@ class _MyWalletState extends State<MyWallet> {
     });
   }
 
+  String spentMoneyAmount() {
+    int sum = 0;
+    List<ExpenseModel> list = expenseList.getListByTime(dateTime);
+    list.forEach((element) {
+      sum += int.parse(element.cost.replaceAll(",", ""));
+    });
+    return sum.toString();
+  }
+
+  String moneyFormat(String str) {
+    String s = "";
+    int b = 0;
+    for (int i = str.length - 1; i >= 0; i--) {
+      if (b == 3) {
+        s += " ";
+        b = 0;
+      }
+      s += str[i];
+      b++;
+    }
+    return s.split("").reversed.join();
+  }
+
+  void changeBudget(BuildContext context) {
+    showModalBottomSheet(
+        isDismissible: false,
+        context: context,
+        builder: (ctx) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Column(
+              children: [
+                TextField(
+                  controller: textEditingController,
+                  keyboardType: TextInputType.number,
+                  onChanged: (text) {
+                    setState(() {
+                      textEditingController.text =
+                          moneyFormat(text.replaceAll(" ", ""));
+                    });
+                  },
+                  decoration: InputDecoration(
+                    label: Text("Oylik byudjet muqdori"),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          textEditingController.text = budget;
+                          Navigator.pop(context);
+                        },
+                        child: Text("BEKOR QILISH")),
+                    ElevatedButton(
+                        onPressed: () {
+                          if (textEditingController.text.isEmpty) {
+                            return;
+                          }
+                          setState(() {
+                            budget = textEditingController.text;
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: Text("KIRITISH"))
+                  ],
+                )
+              ],
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,15 +161,16 @@ class _MyWalletState extends State<MyWallet> {
           SizedBox(
             height: 20,
           ),
-          SpentMoney(lastMonth, nextMonth, dateTime),
+          SpentMoney(lastMonth, nextMonth, dateTime, spentMoneyAmount()),
           SizedBox(
             height: 30,
           ),
           Expanded(
             child: Stack(
               children: [
-                ProgressBar(),
-                ExpenseList(expenseList.expenseList),
+                ProgressBar(int.parse(spentMoneyAmount()), changeBudget,
+                    budget.replaceAll(" ", ",")),
+                ExpenseList(expenseList.getListByTime(dateTime)),
               ],
             ),
           )

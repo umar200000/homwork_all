@@ -45,6 +45,14 @@ class ExpensesList {
     ),
   ];
 
+  List<ExpenseModel> getListByTime(DateTime dateTime) {
+    return _expenseModel
+        .where((element) =>
+            element.dateTime.month == dateTime.month &&
+            element.dateTime.year == dateTime.year)
+        .toList();
+  }
+
   get expenseList => _expenseModel;
   setAddItem(String title, DateTime time, String sum) {
     int index = int.parse(_expenseModel[_expenseModel.length - 1].id) + 1;
