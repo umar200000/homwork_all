@@ -14,15 +14,14 @@ class ProgressBar extends StatelessWidget {
     if (int.parse(s.substring(index + 1)) > 0) {
       return 100 * spentMoneyAmount / int.parse(budget.replaceAll(",", ""));
     }
-    return (100 * spentMoneyAmount / int.parse(budget.replaceAll(",", "")))
-        .toInt();
+    return 100 * spentMoneyAmount ~/ int.parse(budget.replaceAll(",", ""));
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 18, horizontal: 25),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 25),
+      decoration: const BoxDecoration(
         color: Color.fromRGBO(237, 238, 251, 1),
         borderRadius: BorderRadius.vertical(top: Radius.circular(55)),
       ),
@@ -30,18 +29,18 @@ class ProgressBar extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text("Oylik byudjet: "),
+              const Text("Oylik byudjet: "),
               TextButton.icon(
                 onPressed: () {
                   changeBudget(context);
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.edit,
                   size: 15,
                 ),
                 label: Text(
                   "$budget so'm",
-                  style: TextStyle(decoration: TextDecoration.underline),
+                  style: const TextStyle(decoration: TextDecoration.underline),
                 ),
               ),
               Expanded(
@@ -69,7 +68,7 @@ class ProgressBar extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                           color: Colors.blue, spreadRadius: -2, blurRadius: 15)
                     ],

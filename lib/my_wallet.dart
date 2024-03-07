@@ -73,9 +73,9 @@ class _MyWalletState extends State<MyWallet> {
   String spentMoneyAmount() {
     int sum = 0;
     List<ExpenseModel> list = expenseList.getListByTime(dateTime);
-    list.forEach((element) {
+    for (var element in list) {
       sum += int.parse(element.cost.replaceAll(",", ""));
-    });
+    }
     return sum.toString();
   }
 
@@ -117,7 +117,7 @@ class _MyWalletState extends State<MyWallet> {
                           moneyFormat(text.replaceAll(" ", ""));
                     });
                   },
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text("Oylik byudjet muqdori"),
                   ),
                 ),
@@ -129,7 +129,7 @@ class _MyWalletState extends State<MyWallet> {
                           textEditingController.text = budget;
                           Navigator.pop(context);
                         },
-                        child: Text("BEKOR QILISH")),
+                        child: const Text("BEKOR QILISH")),
                     ElevatedButton(
                         onPressed: () {
                           if (textEditingController.text.isEmpty) {
@@ -140,7 +140,7 @@ class _MyWalletState extends State<MyWallet> {
                           });
                           Navigator.pop(context);
                         },
-                        child: Text("KIRITISH"))
+                        child: const Text("KIRITISH"))
                   ],
                 )
               ],
@@ -153,7 +153,7 @@ class _MyWalletState extends State<MyWallet> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "My Wallet",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
@@ -161,15 +161,15 @@ class _MyWalletState extends State<MyWallet> {
       ),
       body: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           MonthController(dateTime, pickMonth),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           SpentMoney(lastMonth, nextMonth, dateTime, spentMoneyAmount()),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           Expanded(
@@ -187,7 +187,7 @@ class _MyWalletState extends State<MyWallet> {
         onPressed: () {
           showBottomWindow(context);
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

@@ -15,12 +15,12 @@ class OneItem extends StatelessWidget {
       ),
       title: Text(
         expenseModel.title,
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
       ),
       subtitle: Text(DateFormat("d-MMMM,y").format(expenseModel.dateTime)),
       trailing: Text(
         "${expenseModel.cost} so'm",
-        style: TextStyle(fontSize: 15),
+        style: const TextStyle(fontSize: 15),
       ),
     );
   }

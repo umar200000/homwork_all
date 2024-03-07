@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:homework_all/my_wallet.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: GoogleFonts.montserrat().fontFamily,
       ),
-      home: MyWallet(),
+      home: const MyWallet(),
     );
   }
 }

@@ -14,7 +14,7 @@ class MonthController extends StatelessWidget {
         },
         child: Text(
           DateFormat("MMMM, y").format(dateTime),
-          style: TextStyle(
+          style: const TextStyle(
               fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black),
         ));
   }

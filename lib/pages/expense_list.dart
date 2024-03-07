@@ -15,50 +15,50 @@ class ExpenseList extends StatelessWidget {
         child: Container(
           clipBehavior: Clip.hardEdge,
           width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          decoration: BoxDecoration(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(
               top: Radius.circular(55),
             ),
             color: Colors.white,
           ),
-          child: list.length > 0
+          child: list.isNotEmpty
               ? ListView.builder(
-                  padding: EdgeInsets.only(top: 30),
+                  padding: const EdgeInsets.only(top: 30),
                   itemBuilder: (context, index) {
                     return Dismissible(
                       direction: DismissDirection.endToStart,
-                      resizeDuration: Duration(seconds: 1),
-                      movementDuration: Duration(seconds: 3),
+                      resizeDuration: const Duration(seconds: 1),
+                      movementDuration: const Duration(seconds: 3),
                       key: ValueKey<ExpenseModel>(list[index]),
-                      child: OneItem(list[index]),
                       onDismissed: (DismissDirection direction) {
                         removeExpense(list[index].id);
                       },
                       background: Container(
-                        padding: EdgeInsets.only(right: 15),
+                        padding: const EdgeInsets.only(right: 15),
                         alignment: Alignment.centerRight,
                         color: Colors.red,
-                        child: Icon(
+                        child: const Icon(
                           Icons.delete,
                           color: Colors.white,
                         ),
                       ),
+                      child: OneItem(list[index]),
                     );
                   },
                   itemCount: list.length,
                 )
               : Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
-                    Text(
+                    const Text(
                       "Xarajatlar yo'q",
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Image.asset(

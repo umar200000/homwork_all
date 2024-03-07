@@ -41,7 +41,7 @@ class SpentMoney extends StatelessWidget {
                       : Colors.blue),
             ),
             child: IconButton(
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               onPressed: () {
                 lastMonth();
               },
@@ -59,9 +59,9 @@ class SpentMoney extends StatelessWidget {
             children: [
               Text(
                 moneyFormat(),
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 50),
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 50),
               ),
-              Text(
+              const Text(
                 "so'm",
                 style: TextStyle(fontWeight: FontWeight.bold, height: 0.3),
               ),
@@ -79,7 +79,7 @@ class SpentMoney extends StatelessWidget {
                       : Colors.blue),
             ),
             child: IconButton(
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               onPressed: () {
                 nextMonth();
               },

@@ -16,7 +16,7 @@ class ExpenseModel {
 }
 
 class ExpensesList {
-  List<ExpenseModel> _expenseModel = [
+  final List<ExpenseModel> _expenseModel = [
     ExpenseModel(
       id: "1",
       title: "Yangi kutob",
@@ -55,7 +55,7 @@ class ExpensesList {
 
   get expenseList => _expenseModel;
   setAddItem(String title, DateTime time, String sum) {
-    int index = int.parse(_expenseModel.length == 0
+    int index = int.parse(_expenseModel.isEmpty
             ? "0"
             : _expenseModel[_expenseModel.length - 1].id) +
         1;

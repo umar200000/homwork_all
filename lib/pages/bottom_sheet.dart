@@ -1,5 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_iconpicker_plus/flutter_iconpicker.dart';
 import 'package:intl/intl.dart';
 import 'package:vibration/vibration.dart';
 
@@ -28,6 +30,23 @@ class _BottomSheet1State extends State<BottomSheet1> {
   int b = 0;
   int c = 0;
   bool t = false;
+  Icon? _icon;
+
+  _pickIcon() async {
+    IconData? icon = await FlutterIconPicker.showIconPicker(context,
+        iconPackModes: [IconPack.cupertino]);
+
+    if (icon != null) {
+      _icon = Icon(
+        icon,
+        size: 30,
+        color: Colors.black,
+      );
+    }
+    setState(() {});
+
+    debugPrint('Picked Icon:  $icon');
+  }
 
   void chooseDay(BuildContext context) {
     showDatePicker(
@@ -70,16 +89,24 @@ class _BottomSheet1State extends State<BottomSheet1> {
     return s.split("").reversed.join();
   }
 
+  Timer? timer;
+
   void snackBar() {
     setState(() {
       t = true;
     });
 
-    Future.delayed(Duration(milliseconds: 3500), () {
+    timer = Timer(const Duration(milliseconds: 3500), () {
       setState(() {
         t = false;
       });
     });
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -154,7 +181,19 @@ class _BottomSheet1State extends State<BottomSheet1> {
                   onPressed: () {
                     chooseDay(context);
                   },
-                  child: Text("KUNNI TANLASH"),
+                  child: const Text("KUNNI TANLASH"),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _icon == null ? Text("Icon tanlanmadi!") : _icon!,
+                TextButton(
+                  onPressed: () {
+                    _pickIcon();
+                  },
+                  child: Text("ICON TANLASH"),
                 ),
               ],
             ),
@@ -165,7 +204,7 @@ class _BottomSheet1State extends State<BottomSheet1> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text("BEKOR QILISH"),
+                  child: const Text("BEKOR QILISH"),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -206,11 +245,11 @@ class _BottomSheet1State extends State<BottomSheet1> {
                         text1.text, dateTime!, text2.text.replaceAll(" ", ","));
                     Navigator.pop(context);
                   },
-                  child: Text("KIRITISH"),
+                  child: const Text("KIRITISH"),
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             t
@@ -223,7 +262,7 @@ class _BottomSheet1State extends State<BottomSheet1> {
                         color: Colors.black54,
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           "Yuqoridilani barchasini toldiring!",
                           style: TextStyle(color: Colors.white),
@@ -231,7 +270,7 @@ class _BottomSheet1State extends State<BottomSheet1> {
                       ),
                     ),
                   )
-                : SizedBox(
+                : const SizedBox(
                     height: 40,
                   ),
           ],
