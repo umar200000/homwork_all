@@ -57,6 +57,7 @@ class _MyWalletState extends State<MyWallet> {
   void showBottomWindow(BuildContext context) {
     showModalBottomSheet(
         isDismissible: false,
+        isScrollControlled: true,
         context: context,
         builder: (ctx) {
           return BottomSheet1(addNewExpense);
@@ -90,6 +91,12 @@ class _MyWalletState extends State<MyWallet> {
       b++;
     }
     return s.split("").reversed.join();
+  }
+
+  void removeExpense(String id) {
+    setState(() {
+      expenseList.deleteExpense(id);
+    });
   }
 
   void changeBudget(BuildContext context) {
@@ -170,7 +177,7 @@ class _MyWalletState extends State<MyWallet> {
               children: [
                 ProgressBar(int.parse(spentMoneyAmount()), changeBudget,
                     budget.replaceAll(" ", ",")),
-                ExpenseList(expenseList.getListByTime(dateTime)),
+                ExpenseList(expenseList.getListByTime(dateTime), removeExpense),
               ],
             ),
           )

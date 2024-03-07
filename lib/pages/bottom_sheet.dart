@@ -3,14 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:vibration/vibration.dart';
 
-class NumberFormatter extends TextInputFormatter {
-  @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
-    final formatter = NumberFormat('#,###', 'ru-RU');
-    return TextEditingValue(text: formatter.format(int.parse(newValue.text)));
-  }
-}
+// class NumberFormatter extends TextInputFormatter {
+//   @override
+//   TextEditingValue formatEditUpdate(
+//       TextEditingValue oldValue, TextEditingValue newValue) {
+//     final formatter = NumberFormat('#,###', 'ru-RU');
+//     return TextEditingValue(text: formatter.format(int.parse(newValue.text)));
+//   }
+// }
 
 class BottomSheet1 extends StatefulWidget {
   final void Function(String title, DateTime time, String sum) addNewExpense;
@@ -54,21 +54,21 @@ class _BottomSheet1State extends State<BottomSheet1> {
     dateTime == null ? c = 1 : c = 0;
   }
 
-  // String moneyFormat(String str) {
-  //   str = str.replaceAll(RegExp(r'[^0-9]'), '');
-  //   String s = "";
-  //   int b = 0;
-  //   for (int i = str.length - 1; i >= 0; i--) {
-  //     if (b == 3) {
-  //       s += " ";
-  //       b = 0;
-  //     }
-  //     s += str[i];
-  //     b++;
-  //     print(b);
-  //   }
-  //   return s.split("").reversed.join();
-  // }
+  String moneyFormat(String str) {
+    str = str.replaceAll(RegExp(r'[^0-9]'), '');
+    String s = "";
+    int b = 0;
+    for (int i = str.length - 1; i >= 0; i--) {
+      if (b == 3) {
+        s += " ";
+        b = 0;
+      }
+      s += str[i];
+      b++;
+      print(b);
+    }
+    return s.split("").reversed.join();
+  }
 
   void snackBar() {
     setState(() {
@@ -86,148 +86,156 @@ class _BottomSheet1State extends State<BottomSheet1> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14.0),
-      child: Column(
-        children: [
-          TextField(
-            controller: text1,
-            onChanged: (text) {
-              setState(() {
-                if (text.isNotEmpty) {
-                  a = 0;
-                }
-              });
-            },
-            decoration: InputDecoration(
-              labelText: "Xarajat nomi",
-              labelStyle: TextStyle(color: a == 0 ? Colors.grey : Colors.red),
-              focusedBorder: UnderlineInputBorder(
-                  borderSide:
-                      BorderSide(color: a == 0 ? Colors.grey : Colors.red)),
-              enabledBorder: UnderlineInputBorder(
-                  borderSide:
-                      BorderSide(color: a == 0 ? Colors.grey : Colors.red)),
+      child: SingleChildScrollView(
+        padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom > 0
+                ? MediaQuery.of(context).viewInsets.bottom
+                : 100),
+        child: Column(
+          children: [
+            TextField(
+              controller: text1,
+              onChanged: (text) {
+                setState(() {
+                  if (text.isNotEmpty) {
+                    a = 0;
+                  }
+                });
+              },
+              decoration: InputDecoration(
+                labelText: "Xarajat nomi",
+                labelStyle: TextStyle(color: a == 0 ? Colors.grey : Colors.red),
+                focusedBorder: UnderlineInputBorder(
+                    borderSide:
+                        BorderSide(color: a == 0 ? Colors.grey : Colors.red)),
+                enabledBorder: UnderlineInputBorder(
+                    borderSide:
+                        BorderSide(color: a == 0 ? Colors.grey : Colors.red)),
+              ),
             ),
-          ),
-          TextField(
-            controller: text2,
-            keyboardType: TextInputType.number,
-            onChanged: (text) {
-              setState(() {
-                // text2.text = moneyFormat(text);
+            TextField(
+              controller: text2,
+              keyboardType: TextInputType.number,
+              onChanged: (text) {
+                setState(() {
+                  text2.text = moneyFormat(text);
 
-                if (text2.text.isNotEmpty) {
-                  b = 0;
-                }
-              });
-            },
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-              NumberFormatter(),
-            ],
-            decoration: InputDecoration(
-              labelText: "Xarajat miqdori",
-              labelStyle: TextStyle(color: b == 0 ? Colors.grey : Colors.red),
-              focusedBorder: UnderlineInputBorder(
-                  borderSide:
-                      BorderSide(color: b == 0 ? Colors.grey : Colors.red)),
-              enabledBorder: UnderlineInputBorder(
-                  borderSide:
-                      BorderSide(color: b == 0 ? Colors.grey : Colors.red)),
+                  if (text2.text.isNotEmpty) {
+                    b = 0;
+                  }
+                });
+              },
+              // inputFormatters: [
+              //   FilteringTextInputFormatter.digitsOnly,
+              //   NumberFormatter(),
+              // ],
+              decoration: InputDecoration(
+                labelText: "Xarajat miqdori",
+                labelStyle: TextStyle(color: b == 0 ? Colors.grey : Colors.red),
+                focusedBorder: UnderlineInputBorder(
+                    borderSide:
+                        BorderSide(color: b == 0 ? Colors.grey : Colors.red)),
+                enabledBorder: UnderlineInputBorder(
+                    borderSide:
+                        BorderSide(color: b == 0 ? Colors.grey : Colors.red)),
+              ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                dateTime == null
-                    ? "Xarajat kuni tanlanmadi!"
-                    : "Xarajat kuni: ${DateFormat("MMMM d, y").format(dateTime!)}",
-                style: TextStyle(
-                    fontSize: 13, color: c == 0 ? Colors.black : Colors.red),
-              ),
-              TextButton(
-                onPressed: () {
-                  chooseDay(context);
-                },
-                child: Text("KUNNI TANLASH"),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text("BEKOR QILISH"),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  String s = text1.text;
-                  if (text1.text.isEmpty ||
-                      dateTime == null ||
-                      text2.text.isEmpty) {
-                    Vibration.vibrate();
-                    setState(() {
-                      checkInformation();
-                    });
-                    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    //   content: Text("Yuqoridilani barchasini toldiring"),
-                    //   duration: Duration(seconds: 4),
-                    // ));
-                    if (!t) snackBar();
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  dateTime == null
+                      ? "Xarajat kuni tanlanmadi!"
+                      : "Xarajat kuni: ${DateFormat("MMMM d, y").format(dateTime!)}",
+                  style: TextStyle(
+                      fontSize: 13, color: c == 0 ? Colors.black : Colors.red),
+                ),
+                TextButton(
+                  onPressed: () {
+                    chooseDay(context);
+                  },
+                  child: Text("KUNNI TANLASH"),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("BEKOR QILISH"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    String s = text1.text;
+                    if (text1.text.isEmpty ||
+                        dateTime == null ||
+                        text2.text.isEmpty) {
+                      Vibration.vibrate();
+                      setState(() {
+                        checkInformation();
+                      });
+                      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      //   content: Text("Yuqoridilani barchasini toldiring"),
+                      //   duration: Duration(seconds: 4),
+                      // ));
+                      if (!t) snackBar();
 
-                    return;
-                  }
-                  if (s.replaceAll(" ", "").isEmpty) {
-                    Vibration.vibrate();
-                    setState(() {
-                      a = 1;
-                    });
-                    if (!t) snackBar();
-                    return;
-                  }
+                      return;
+                    }
+                    if (s.replaceAll(" ", "").isEmpty) {
+                      Vibration.vibrate();
+                      setState(() {
+                        a = 1;
+                      });
+                      if (!t) snackBar();
+                      return;
+                    }
 
-                  if (int.parse(text2.text.replaceAll(" ", "")) < 0) {
-                    setState(() {
-                      b = 1;
-                    });
-                    if (!t) snackBar();
-                    return;
-                  }
+                    if (int.parse(text2.text.replaceAll(" ", "")) < 0) {
+                      setState(() {
+                        b = 1;
+                      });
+                      if (!t) snackBar();
+                      return;
+                    }
 
-                  widget.addNewExpense(
-                      text1.text, dateTime!, text2.text.replaceAll(" ", ","));
-                  Navigator.pop(context);
-                },
-                child: Text("KIRITISH"),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          t
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Container(
-                    height: 40,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.black54,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Yuqoridilani barchasini toldiring!",
-                        style: TextStyle(color: Colors.white),
+                    widget.addNewExpense(
+                        text1.text, dateTime!, text2.text.replaceAll(" ", ","));
+                    Navigator.pop(context);
+                  },
+                  child: Text("KIRITISH"),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            t
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Container(
+                      height: 40,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.black54,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Yuqoridilani barchasini toldiring!",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
+                  )
+                : SizedBox(
+                    height: 40,
                   ),
-                )
-              : SizedBox(),
-        ],
+          ],
+        ),
       ),
     );
   }

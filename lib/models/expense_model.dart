@@ -55,8 +55,15 @@ class ExpensesList {
 
   get expenseList => _expenseModel;
   setAddItem(String title, DateTime time, String sum) {
-    int index = int.parse(_expenseModel[_expenseModel.length - 1].id) + 1;
+    int index = int.parse(_expenseModel.length == 0
+            ? "0"
+            : _expenseModel[_expenseModel.length - 1].id) +
+        1;
     _expenseModel.add(
         ExpenseModel(id: "$index", title: title, dateTime: time, cost: sum));
+  }
+
+  void deleteExpense(String id) {
+    _expenseModel.removeWhere((element) => element.id == id);
   }
 }
