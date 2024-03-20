@@ -84,7 +84,6 @@ class _BottomSheet1State extends State<BottomSheet1> {
       }
       s += str[i];
       b++;
-      print(b);
     }
     return s.split("").reversed.join();
   }
@@ -188,12 +187,12 @@ class _BottomSheet1State extends State<BottomSheet1> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _icon == null ? Text("Icon tanlanmadi!") : _icon!,
+                _icon == null ? const Text("Icon tanlanmadi!") : _icon!,
                 TextButton(
                   onPressed: () {
                     _pickIcon();
                   },
-                  child: Text("ICON TANLASH"),
+                  child: const Text("ICON TANLASH"),
                 ),
               ],
             ),

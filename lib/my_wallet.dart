@@ -15,16 +15,30 @@ class MyWallet extends StatefulWidget {
   State<MyWallet> createState() => _MyWalletState();
 }
 
-class _MyWalletState extends State<MyWallet> {
+class _MyWalletState extends State<MyWallet> with WidgetsBindingObserver {
   DateTime dateTime = DateTime.now();
   ExpensesList expenseList = ExpensesList();
   TextEditingController textEditingController = TextEditingController();
   String budget = "";
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state);
+    super.didChangeAppLifecycleState(state);
+  }
+
   @override
   void initState() {
     textEditingController.text = "1 000 000";
     budget = "1 000 000";
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   void pickMonth(BuildContext context) {
